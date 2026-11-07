@@ -547,15 +547,16 @@ for(i=0;i<36;i++){c.beginPath();c.arc(Math.cos(i/36*2*Math.PI)*282,Math.sin(i/36
 c.restore()}
 draw(0);
 var AC;function beep(f){return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();var o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;o.type='triangle';g.gain.setValueAtTime(.07,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.06);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.07)}catch(e){}}
-function open(e){if(done)return;e.preventDefault();M.classList.add('on');document.body.style.overflow='hidden';win()}
+var modoSaida=false;
+function open(e){if(done)return;e.preventDefault();modoSaida=false;M.classList.add('on');document.body.style.overflow='hidden';win()}
 ['btnBasico','btnBasico2','btnBasico3'].forEach(function(i){document.getElementById(i).addEventListener('click',open)});
-document.getElementById('rclose').addEventListener('click',function(){M.classList.remove('on');document.body.style.overflow=''});
+document.getElementById('rclose').addEventListener('click',function(){M.classList.remove('on');document.body.style.overflow='';if(!modoSaida){var n=document.querySelector('#roleta .nothx');if(n)location.href=n.href}});
 /* roleta também na saída: mouse saindo pelo topo (computador) ou botão voltar (celular), uma vez por visita */
 var saiu=false;try{saiu=sessionStorage.getItem('b3d_saida')==='1'}catch(e){}
 function saida(){if(saiu||done||M.classList.contains('on'))return;saiu=true;try{sessionStorage.setItem('b3d_saida','1')}catch(e){}
  document.getElementById('rt').innerHTML='Before you go, <em>spin the wheel</em>';
  document.querySelector('#roleta .ms').textContent='A gift for making it this far: spin and see your discount on the Complete bundle.';
- M.classList.add('on');document.body.style.overflow='hidden';win()}
+ modoSaida=true;M.classList.add('on');document.body.style.overflow='hidden';win()}
 document.addEventListener('mouseout',function(e){if(!e.relatedTarget&&e.clientY<=0)saida()});
 document.getElementById('spin').addEventListener('click',function(){
  if(spinning)return;spinning=true;this.disabled=true;this.textContent='Spinning...';
